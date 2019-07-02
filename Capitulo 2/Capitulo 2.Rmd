@@ -1,0 +1,143 @@
+---
+title: "Capitulo 2. Nombres y valores"
+output: html_document
+---
+
+# Quizes 
+
+#### **Ch.2 - Q1. Dado el siguiente `dataframe`, ¿cómo puedo crear una nueva columna llamada "3" que contenga la suma de `1` y `2`? Sólo puede utilizarse `$`, no `[[`. ¿Qué es lo que hace a 1, 2 y 3 nombres complicados para las variables?**
+
+```{r}
+# Creamos el dataframe como dice el libro:
+df <- data.frame(runif(3), runif(3))
+names(df) <- c(1,2)
+head(df)
+
+# PROPUESTA DE RESPUESTA:
+df$`3` <- df$`1` + df$`2`
+head(df)
+```
+
+**Explicación: ** `R` tiene reglas explicitas acerca de lo que constituye un nombre válido. Estos pueden contener letras, dígitos y guiones bajos (`_`) **pero** no pueden empezar con (`_`), ni con un dígito, (mucho menos ser un dígito). Tampoco se pueden usar palabras reservadas (escribir `?Reserved` para ver cuales son estas palabras reservadas).
+
+Si uno quiere evadir estas reglas puede utilizar *backstiks* (`); rodeando cualquier secuencia de caracteres. 
+
+#### **Ch.2 - Q2. En el siguiente código, ¿Cuanta memoria ocupa `y`?**
+
+```{r}
+x <- runif(1e6)
+y <- list(x,x,x)
+
+# PROPUESTA DE SOLUCION
+
+# 1. Utilizando la función object.size()
+print(object.size(y))
+
+# 2. Usando la libreria lobstr, la cual nos sirve para examinar mas de cerca la representación interna de los objetos de R
+lobstr::obj_size(x)
+lobstr::obj_size(y)
+
+```
+
+**Explicación: ** Del código anterior se pueden observar 2 cosas: 1) el tamaño del objeto `y` es mucho mas grande (tres veces mas grande) si utilizamos la función `object.size()` en vez de `lobstr::obj_size`, ademas de que, según esta última función, el objeto `y` es sólamente 80 B mas grande que el objeto `x`. (80 B es justo el tamaño de una lista de tres elementos vacíos).
+
+La razón por la cual la primera función da un valor tres veces más grande es porque la función `utils::object_size()` no toma en cuenta las referencias compartidas. En este caso contó tres veces al objeto `x`, a diferencia de la otra función, que sólo lo contó una vez (como debe de ser).
+Mayor explicación en el capítulo 2.2 del libro de Wickham.
+
+#### **Ch.2 - Q3. ¿En qué línea del siguiente ejemplo es copiada `a`? **
+```{r}
+a <- c(1,5,3,2)
+b <- a
+b[[1]] <- 10
+
+# Propuesta de respuesta: 
+# Linea 1. Cada vez que usamos la flechita <-, lo que hacemos es asignarle 
+# un nombre definido por nosotros a un espacio en la memoria. Por ejemplo, si 
+# escribimos la siguiente linea: 
+
+a <- c(1,5,3,2) # Linea 1
+b <- a          # Linea 2
+
+# Y ahora checamos sus direcciones en la memoria:
+lobstr::obj_addr(a)
+lobstr::obj_addr(b)
+
+# Podemos corroborar que son las mismas direcciones. 
+lobstr::obj_addr(a) == lobstr::obj_addr(b)
+
+# Ahora, al escribir la tercera linea...
+b[[1]] <- 10
+
+# ... y checar las direcciones
+lobstr::obj_addr(a)
+lobstr::obj_addr(b)
+lobstr::obj_addr(a) == lobstr::obj_addr(b)
+
+# Vemos que estas han cambiado
+
+```
+
+Los que llevamos tiempo programando en R sabemos que modificando al objeto `b` no modificamos al objeto `a`. Lo que sucedió fué que, mientras el valor asociado a `b` cambió, el objeto original no lo hizo. En vez de eso, `R` creó un nuevo objeto con una nueva dirección, como una copia del objeto original pero con un valor cambiado, y le asignó el nombre de `b` a dicho objeto copiado. A este comportamiento se le conoce como `copy-on-modify`. 
+
+Una forma de ver esto es pensar en que los objetos en R son inmutables, y tener esta idea en mente nos puede ayudar a entender la manera en que el código de R funciona. 
+
+Es por eso que, podemos decir que la linea en donde se activa este proceso `copy-on-modify` es en la **linea 3**.
+
+# Ejercicios
+
+#### **Ejercicio 2.2.2 - 1. Explique la relación entre `a`, `b`, `c` y `d` en el siguiente código. **
+
+```{r}
+a <- 1:10
+b <- a
+c <- b
+d <- 1:10
+
+## Propuesta de solución. 
+# Una hipótesis válida sería explicar la relacion entre los cuatro objetos diciendo que
+# son los mismos objetos. Para probar eso, utilizaremos la función lobstr::obj_addr
+
+lobstr::obj_addr(a)
+lobstr::obj_addr(b)
+lobstr::obj_addr(c)
+lobstr::obj_addr(d)
+
+
+
+```
+Como podemos observar del resultado del código anterior, `a`, `b` y `c` son nombres de objetos que hacen referencia a un mismo lugar en la memoria, mientras que el objeto `d` es un objeto totalmente independiente.
+
+#### **Ejercicio 2.2.2 - 2. El siguiente código accesa a la función `mean` de múltiples maneras. ¿Todas estas maneras apuntan al mismo objeto subyacente del tipo funcion? Verifique esto con la función `lobstr::obj_addr()`**
+
+```{r, eval=FALSE}
+mean
+base::mean
+get("mean")
+evalq(mean)
+match.fun(mean)
+
+```
+
+```{r}
+## PROPUESTA DE SOLUCIÓN
+
+# 1. Abrimos la libreria magrittr
+library(magrittr)
+
+# 2. Utilizamos la función lobtr::obj_addr()  
+
+mean %>% lobstr::obj_addr()
+base::mean %>% lobstr::obj_addr()
+get("mean") %>% lobstr::obj_addr()
+evalq(mean) %>% lobstr::obj_addr()
+match.fun(mean) %>% lobstr::obj_addr()
+
+
+
+
+
+```
+
+Como podemos ver, todas apuntan al mismo objeto función media subyacente, con la misma dirección en la memoria.
+
+
