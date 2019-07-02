@@ -3,7 +3,9 @@ title: "Capitulo 2. Nombres y valores"
 output: html_document
 ---
 
-# Quizes 
+# Capítulo 2. Nombres y Valores
+
+## Quizes 
 
 #### **Ch.2 - Q1. Dado el siguiente `dataframe`, ¿cómo puedo crear una nueva columna llamada "3" que contenga la suma de `1` y `2`? Sólo puede utilizarse `$`, no `[[`. ¿Qué es lo que hace a 1, 2 y 3 nombres complicados para las variables?**
 
@@ -83,7 +85,7 @@ Una forma de ver esto es pensar en que los objetos en R son inmutables, y tener 
 
 Es por eso que, podemos decir que la linea en donde se activa este proceso `copy-on-modify` es en la **linea 3**.
 
-# Ejercicios
+## Ejercicios
 
 #### **Ejercicio 2.2.2 - 1. Explique la relación entre `a`, `b`, `c` y `d` en el siguiente código. **
 
