@@ -142,4 +142,133 @@ match.fun(mean) %>% lobstr::obj_addr()
 
 Como podemos ver, todas apuntan al mismo objeto función media subyacente, con la misma dirección en la memoria.
 
+#### **Ejercicio 2.2.2 - 3. Por default, las funciones para importar datos que hay en R, como `read.csv()`, automáticamente convierten nombres no-sinctácticos a nombres sintácticos. ¿Por qué esto podría ser problemático? ¿Qué opción nos ayuda a suprimir este comportamiento? **
+
+**Solución del solucionario: **
+
+*When automatic and implicit (name) conversion occurs, the prediction of a scripts output will be more difficult. For example when R is used non-interactively and some data is read, transformed and written, then the output may not contain the same names as the original data source. This behaviour may introduce problems in downstream analysis. To avoid automatic name conversion set check.names = FALSE.*
+
+
+#### **Ejercicio 2.2.2 - 4. ¿Qué reglas sigue `make.names()` para convertir nombres no-sintácticos en nombres sintácticos? **
+
+**Propuesta de respuesta**
+Para checar las reglas que sigue la función `make.names()`, checamos la documentación de la función.
+
+De esta documentación, podemos observar las siguientes reglas: 
+
+1. "Un nombre válido sintácticamente consiste de letras, números, puntos y guiones bajos. Estos deben iniciar con con una letra o con un punto. Si inician con un punto, no pueden llevar inmediatamente después un dígito. Tampoco son válidos como nombres las palabras reservadas".
+
+2. La definición de letra depende del `locale` activo. El `locale` consiste en archivos que describen aspectos de la internacionalización de un programa y para más información puede consultarse en este [enlace](https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html).
+
+3. Si es necesario, se utilizará el caracter `X` como prefijo. 
+
+```{r}
+# Ejemplo 
+make.names("")
+
+```
+
+
+4. Todos los caracteres inválidos se traducirán como `"."`. (Si un caracter es válido o inválido se define por el locale activo). 
+
+```{r}
+# Ejemplo 
+make.names("@")
+make.names("  ")
+make.names("no-valido")
+```
+
+5. Los _missing values_ o valores inexistentes se traducirán como "`NA`"
+
+```{r}
+make.names(NA)
+
+```
+
+6. Nombres que utilicen palabras reservadas de `R` terminarán con un punto. 
+```{r}
+make.names("if")
+make.names("while")
+
+```
+
+7. Nombres repetidos serán alterados por la función `make.unique()`.
+```{r}
+make.names(c("edad", "edad"))
+
+```
+
+#### **Ejercicio 2.2.2 - 5. En el libro se simplificaron las reglas que gobiernan los nombres sintácticos. Explique porque `.123e1` no es un nombre sintáctico. Lea `?make.names` para los detalles completos. ** 
+
+**Propuesta de respuesta**
+No se considera válido porque rompe la regla 1 de la pregunta anterior. Al consistir en un punto y después un número, R lo interpreta como un dato del tipo `double` en vez de interpretarlo como un posible nombre. 
+
+#### **Ejercicio 2.3.6 - 1. ¿Porque no tiene sentido el siguiente código: `tracemem(1:10)`?**
+
+**Propuesta de respuesta**
+La función `base::tracemem()` nos ayuda a ver cuando un objeto ha sido copiado. Una vez que un objeto sea copiado, `tracemem` mostrará cual objeto ha sido copiado, su nueva dirección y la secuencia de llamadas que condujeron a esa copia. 
+
+Utilizar esta función se verá como a continuación: 
+
+```{r}
+# Creamos el objeto a
+a <- 1:10
+# Trazamos su comportamiento en la memoria con tracemem()
+tracemem(a)
+# Referenciamos otro nombre al objeto que tiene como nombre a
+b <- a
+# Hacemos una copia
+b[[3]] <- 4L
+```
+
+Sin embargo, no es posible seguir a un objeto como 1:10, dado que este no tiene nombre asociado. Cada vez que lo declaramos, este se crea una vez en la memoria pero, al carecer de nombre, no podemos acceder a el o midificarlo. En el código posterior vemos como cada vez que aplicamos la función `tracemem()`, esta hace referencia a diferentes ubicaciones de la memoria. 
+
+Si estos objetos son inaccesibles, no pueden ser copiados, y si no pueden ser copiados, no puede hacerse el rastreo en la memoria de dichos objetos. 
+```{r}
+tracemem(1:10)
+tracemem(1:10)
+tracemem(1:10)
+tracemem(1:10)
+```
+
+#### **Ejercicio 2.3.6 - 2. Explique por qué la función `tracemem()` muestra dos copias cuando se corre el siguiente código.** HINT: Checar la diferencia entre el codigo que se presenta y el código que se presentó en el libro.
+
+CÓDIGO: 
+```{r}
+x <- c(1L, 2L, 3L)
+tracemem(x)
+
+x[[3]] <- 4 
+```
+
+Código del libro
+```{r}
+x <- c(1,2,3)
+class(x)
+cat(tracemem(x), "\n")
+
+y <- x
+y[[3]] <- 4L
+y[[3]] <- 5L
+
+```
+
+En el primer bloque de código, lo que sucede es que, al principio, el vector original es del tipo `integer` (de ahí el uso de las `L` para declarar los números). Al introducirle un numero entero al vector, primero hay una copia (_copy_on_modify_) que lo convierte en vector numerico y luego otra copia que introduce el nuevo elemento en la posición especificada.  
+
+#### **Ejercicio 2.3.6 - 3. Diagrame la relación entre los siguientes objetos: **
+
+```{r}
+a <- 1:10
+b <- list(a,a)
+c <- list(b, a, 1:10)
+
+```
+
+*Propuesta de solución*
+
+Para diagramar lo anterior, utilizamos la función `ref`
+
+```{r}
+lobstr::ref(c, character = F)
+```
 

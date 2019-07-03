@@ -378,25 +378,27 @@ $(document).ready(function () {
 </div>
 
 
-<div id="quizes" class="section level1">
-<h1>Quizes</h1>
+<div id="capitulo-2.-nombres-y-valores" class="section level1">
+<h1>Capítulo 2. Nombres y Valores</h1>
+<div id="quizes" class="section level2">
+<h2>Quizes</h2>
 <div id="ch.2---q1.-dado-el-siguiente-dataframe-como-puedo-crear-una-nueva-columna-llamada-3-que-contenga-la-suma-de-1-y-2-solo-puede-utilizarse-no-.-que-es-lo-que-hace-a-1-2-y-3-nombres-complicados-para-las-variables" class="section level4">
 <h4><strong>Ch.2 - Q1. Dado el siguiente <code>dataframe</code>, ¿cómo puedo crear una nueva columna llamada “3” que contenga la suma de <code>1</code> y <code>2</code>? Sólo puede utilizarse <code>$</code>, no <code>[[</code>. ¿Qué es lo que hace a 1, 2 y 3 nombres complicados para las variables?</strong></h4>
 <pre class="r"><code># Creamos el dataframe como dice el libro:
 df &lt;- data.frame(runif(3), runif(3))
 names(df) &lt;- c(1,2)
 head(df)</code></pre>
-<pre><code>##           1         2
-## 1 0.8145014 0.9111797
-## 2 0.1158108 0.5298738
-## 3 0.1595946 0.2719977</code></pre>
+<pre><code>##           1          2
+## 1 0.9227839 0.48966079
+## 2 0.1046378 0.68193556
+## 3 0.4810737 0.04311438</code></pre>
 <pre class="r"><code># PROPUESTA DE RESPUESTA:
 df$`3` &lt;- df$`1` + df$`2`
 head(df)</code></pre>
-<pre><code>##           1         2         3
-## 1 0.8145014 0.9111797 1.7256812
-## 2 0.1158108 0.5298738 0.6456845
-## 3 0.1595946 0.2719977 0.4315924</code></pre>
+<pre><code>##           1          2         3
+## 1 0.9227839 0.48966079 1.4124447
+## 2 0.1046378 0.68193556 0.7865733
+## 3 0.4810737 0.04311438 0.5241881</code></pre>
 <p><strong>Explicación: </strong> <code>R</code> tiene reglas explicitas acerca de lo que constituye un nombre válido. Estos pueden contener letras, dígitos y guiones bajos (<code>_</code>) <strong>pero</strong> no pueden empezar con (<code>_</code>), ni con un dígito, (mucho menos ser un dígito). Tampoco se pueden usar palabras reservadas (escribir <code>?Reserved</code> para ver cuales son estas palabras reservadas).</p>
 <p>Si uno quiere evadir estas reglas puede utilizar <em>backstiks</em> (`); rodeando cualquier secuencia de caracteres.</p>
 </div>
@@ -434,9 +436,9 @@ b &lt;- a          # Linea 2
 
 # Y ahora checamos sus direcciones en la memoria:
 lobstr::obj_addr(a)</code></pre>
-<pre><code>## [1] &quot;0x56330d134c78&quot;</code></pre>
+<pre><code>## [1] &quot;0x55f8ce1dcf78&quot;</code></pre>
 <pre class="r"><code>lobstr::obj_addr(b)</code></pre>
-<pre><code>## [1] &quot;0x56330d134c78&quot;</code></pre>
+<pre><code>## [1] &quot;0x55f8ce1dcf78&quot;</code></pre>
 <pre class="r"><code># Podemos corroborar que son las mismas direcciones. 
 lobstr::obj_addr(a) == lobstr::obj_addr(b)</code></pre>
 <pre><code>## [1] TRUE</code></pre>
@@ -445,9 +447,9 @@ b[[1]] &lt;- 10
 
 # ... y checar las direcciones
 lobstr::obj_addr(a)</code></pre>
-<pre><code>## [1] &quot;0x56330d134c78&quot;</code></pre>
+<pre><code>## [1] &quot;0x55f8ce1dcf78&quot;</code></pre>
 <pre class="r"><code>lobstr::obj_addr(b)</code></pre>
-<pre><code>## [1] &quot;0x56330d68b668&quot;</code></pre>
+<pre><code>## [1] &quot;0x55f8ce20b988&quot;</code></pre>
 <pre class="r"><code>lobstr::obj_addr(a) == lobstr::obj_addr(b)</code></pre>
 <pre><code>## [1] FALSE</code></pre>
 <pre class="r"><code># Vemos que estas han cambiado</code></pre>
@@ -456,8 +458,8 @@ lobstr::obj_addr(a)</code></pre>
 <p>Es por eso que, podemos decir que la linea en donde se activa este proceso <code>copy-on-modify</code> es en la <strong>linea 3</strong>.</p>
 </div>
 </div>
-<div id="ejercicios" class="section level1">
-<h1>Ejercicios</h1>
+<div id="ejercicios" class="section level2">
+<h2>Ejercicios</h2>
 <div id="ejercicio-2.2.2---1.-explique-la-relacion-entre-a-b-c-y-d-en-el-siguiente-codigo." class="section level4">
 <h4><strong>Ejercicio 2.2.2 - 1. Explique la relación entre <code>a</code>, <code>b</code>, <code>c</code> y <code>d</code> en el siguiente código. </strong></h4>
 <pre class="r"><code>a &lt;- 1:10
@@ -470,13 +472,13 @@ d &lt;- 1:10
 # son los mismos objetos. Para probar eso, utilizaremos la función lobstr::obj_addr
 
 lobstr::obj_addr(a)</code></pre>
-<pre><code>## [1] &quot;0x56330a591e38&quot;</code></pre>
+<pre><code>## [1] &quot;0x55f8cab65268&quot;</code></pre>
 <pre class="r"><code>lobstr::obj_addr(b)</code></pre>
-<pre><code>## [1] &quot;0x56330a591e38&quot;</code></pre>
+<pre><code>## [1] &quot;0x55f8cab65268&quot;</code></pre>
 <pre class="r"><code>lobstr::obj_addr(c)</code></pre>
-<pre><code>## [1] &quot;0x56330a591e38&quot;</code></pre>
+<pre><code>## [1] &quot;0x55f8cab65268&quot;</code></pre>
 <pre class="r"><code>lobstr::obj_addr(d)</code></pre>
-<pre><code>## [1] &quot;0x56330a5cb4c8&quot;</code></pre>
+<pre><code>## [1] &quot;0x55f8cb5a1c60&quot;</code></pre>
 <p>Como podemos observar del resultado del código anterior, <code>a</code>, <code>b</code> y <code>c</code> son nombres de objetos que hacen referencia a un mismo lugar en la memoria, mientras que el objeto <code>d</code> es un objeto totalmente independiente.</p>
 </div>
 <div id="ejercicio-2.2.2---2.-el-siguiente-codigo-accesa-a-la-funcion-mean-de-multiples-maneras.-todas-estas-maneras-apuntan-al-mismo-objeto-subyacente-del-tipo-funcion-verifique-esto-con-la-funcion-lobstrobj_addr" class="section level4">
@@ -494,16 +496,127 @@ library(magrittr)
 # 2. Utilizamos la función lobtr::obj_addr()  
 
 mean %&gt;% lobstr::obj_addr()</code></pre>
-<pre><code>## [1] &quot;0x56330a8ecb10&quot;</code></pre>
+<pre><code>## [1] &quot;0x55f8cb9082b8&quot;</code></pre>
 <pre class="r"><code>base::mean %&gt;% lobstr::obj_addr()</code></pre>
-<pre><code>## [1] &quot;0x56330a8ecb10&quot;</code></pre>
+<pre><code>## [1] &quot;0x55f8cb9082b8&quot;</code></pre>
 <pre class="r"><code>get(&quot;mean&quot;) %&gt;% lobstr::obj_addr()</code></pre>
-<pre><code>## [1] &quot;0x56330a8ecb10&quot;</code></pre>
+<pre><code>## [1] &quot;0x55f8cb9082b8&quot;</code></pre>
 <pre class="r"><code>evalq(mean) %&gt;% lobstr::obj_addr()</code></pre>
-<pre><code>## [1] &quot;0x56330a8ecb10&quot;</code></pre>
+<pre><code>## [1] &quot;0x55f8cb9082b8&quot;</code></pre>
 <pre class="r"><code>match.fun(mean) %&gt;% lobstr::obj_addr()</code></pre>
-<pre><code>## [1] &quot;0x56330a8ecb10&quot;</code></pre>
+<pre><code>## [1] &quot;0x55f8cb9082b8&quot;</code></pre>
 <p>Como podemos ver, todas apuntan al mismo objeto función media subyacente, con la misma dirección en la memoria.</p>
+</div>
+<div id="ejercicio-2.2.2---3.-por-default-las-funciones-para-importar-datos-que-hay-en-r-como-read.csv-automaticamente-convierten-nombres-no-sinctacticos-a-nombres-sintacticos.-por-que-esto-podria-ser-problematico-que-opcion-nos-ayuda-a-suprimir-este-comportamiento" class="section level4">
+<h4><strong>Ejercicio 2.2.2 - 3. Por default, las funciones para importar datos que hay en R, como <code>read.csv()</code>, automáticamente convierten nombres no-sinctácticos a nombres sintácticos. ¿Por qué esto podría ser problemático? ¿Qué opción nos ayuda a suprimir este comportamiento? </strong></h4>
+<p><strong>Solución del solucionario: </strong></p>
+<p><em>When automatic and implicit (name) conversion occurs, the prediction of a scripts output will be more difficult. For example when R is used non-interactively and some data is read, transformed and written, then the output may not contain the same names as the original data source. This behaviour may introduce problems in downstream analysis. To avoid automatic name conversion set check.names = FALSE.</em></p>
+</div>
+<div id="ejercicio-2.2.2---4.-que-reglas-sigue-make.names-para-convertir-nombres-no-sintacticos-en-nombres-sintacticos" class="section level4">
+<h4><strong>Ejercicio 2.2.2 - 4. ¿Qué reglas sigue <code>make.names()</code> para convertir nombres no-sintácticos en nombres sintácticos? </strong></h4>
+<p><strong>Propuesta de respuesta</strong> Para checar las reglas que sigue la función <code>make.names()</code>, checamos la documentación de la función.</p>
+<p>De esta documentación, podemos observar las siguientes reglas:</p>
+<ol style="list-style-type: decimal">
+<li><p>“Un nombre válido sintácticamente consiste de letras, números, puntos y guiones bajos. Estos deben iniciar con con una letra o con un punto. Si inician con un punto, no pueden llevar inmediatamente después un dígito. Tampoco son válidos como nombres las palabras reservadas”.</p></li>
+<li><p>La definición de letra depende del <code>locale</code> activo. El <code>locale</code> consiste en archivos que describen aspectos de la internacionalización de un programa y para más información puede consultarse en este <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/locales.html">enlace</a>.</p></li>
+<li><p>Si es necesario, se utilizará el caracter <code>X</code> como prefijo.</p></li>
+</ol>
+<pre class="r"><code># Ejemplo 
+make.names(&quot;&quot;)</code></pre>
+<pre><code>## [1] &quot;X&quot;</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Todos los caracteres inválidos se traducirán como <code>&quot;.&quot;</code>. (Si un caracter es válido o inválido se define por el locale activo).</li>
+</ol>
+<pre class="r"><code># Ejemplo 
+make.names(&quot;@&quot;)</code></pre>
+<pre><code>## [1] &quot;X.&quot;</code></pre>
+<pre class="r"><code>make.names(&quot;  &quot;)</code></pre>
+<pre><code>## [1] &quot;X..&quot;</code></pre>
+<pre class="r"><code>make.names(&quot;no-valido&quot;)</code></pre>
+<pre><code>## [1] &quot;no.valido&quot;</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Los <em>missing values</em> o valores inexistentes se traducirán como “<code>NA</code>”</li>
+</ol>
+<pre class="r"><code>make.names(NA)</code></pre>
+<pre><code>## [1] &quot;NA.&quot;</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>Nombres que utilicen palabras reservadas de <code>R</code> terminarán con un punto.</li>
+</ol>
+<pre class="r"><code>make.names(&quot;if&quot;)</code></pre>
+<pre><code>## [1] &quot;if.&quot;</code></pre>
+<pre class="r"><code>make.names(&quot;while&quot;)</code></pre>
+<pre><code>## [1] &quot;while.&quot;</code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li>Nombres repetidos serán alterados por la función <code>make.unique()</code>.</li>
+</ol>
+<pre class="r"><code>make.names(c(&quot;edad&quot;, &quot;edad&quot;))</code></pre>
+<pre><code>## [1] &quot;edad&quot; &quot;edad&quot;</code></pre>
+</div>
+<div id="ejercicio-2.2.2---5.-en-el-libro-se-simplificaron-las-reglas-que-gobiernan-los-nombres-sintacticos.-explique-porque-.123e1-no-es-un-nombre-sintactico.-lea-make.names-para-los-detalles-completos." class="section level4">
+<h4><strong>Ejercicio 2.2.2 - 5. En el libro se simplificaron las reglas que gobiernan los nombres sintácticos. Explique porque <code>.123e1</code> no es un nombre sintáctico. Lea <code>?make.names</code> para los detalles completos. </strong></h4>
+<p><strong>Propuesta de respuesta</strong> No se considera válido porque rompe la regla 1 de la pregunta anterior. Al consistir en un punto y después un número, R lo interpreta como un dato del tipo <code>double</code> en vez de interpretarlo como un posible nombre.</p>
+</div>
+<div id="ejercicio-2.3.6---1.-porque-no-tiene-sentido-el-siguiente-codigo-tracemem110" class="section level4">
+<h4><strong>Ejercicio 2.3.6 - 1. ¿Porque no tiene sentido el siguiente código: <code>tracemem(1:10)</code>?</strong></h4>
+<p><strong>Propuesta de respuesta</strong> La función <code>base::tracemem()</code> nos ayuda a ver cuando un objeto ha sido copiado. Una vez que un objeto sea copiado, <code>tracemem</code> mostrará cual objeto ha sido copiado, su nueva dirección y la secuencia de llamadas que condujeron a esa copia.</p>
+<p>Utilizar esta función se verá como a continuación:</p>
+<pre class="r"><code># Creamos el objeto a
+a &lt;- 1:10
+# Trazamos su comportamiento en la memoria con tracemem()
+tracemem(a)</code></pre>
+<pre><code>## [1] &quot;&lt;0x55f8cad1cfc0&gt;&quot;</code></pre>
+<pre class="r"><code># Referenciamos otro nombre al objeto que tiene como nombre a
+b &lt;- a
+# Hacemos una copia
+b[[3]] &lt;- 4L</code></pre>
+<pre><code>## tracemem[0x55f8cad1cfc0 -&gt; 0x55f8cb69d8b8]: eval eval withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt;</code></pre>
+<p>Sin embargo, no es posible seguir a un objeto como 1:10, dado que este no tiene nombre asociado. Cada vez que lo declaramos, este se crea una vez en la memoria pero, al carecer de nombre, no podemos acceder a el o midificarlo. En el código posterior vemos como cada vez que aplicamos la función <code>tracemem()</code>, esta hace referencia a diferentes ubicaciones de la memoria.</p>
+<p>Si estos objetos son inaccesibles, no pueden ser copiados, y si no pueden ser copiados, no puede hacerse el rastreo en la memoria de dichos objetos.</p>
+<pre class="r"><code>tracemem(1:10)</code></pre>
+<pre><code>## [1] &quot;&lt;0x55f8ccbd1f60&gt;&quot;</code></pre>
+<pre class="r"><code>tracemem(1:10)</code></pre>
+<pre><code>## [1] &quot;&lt;0x55f8ccfc50e8&gt;&quot;</code></pre>
+<pre class="r"><code>tracemem(1:10)</code></pre>
+<pre><code>## [1] &quot;&lt;0x55f8cd0bd118&gt;&quot;</code></pre>
+<pre class="r"><code>tracemem(1:10)</code></pre>
+<pre><code>## [1] &quot;&lt;0x55f8cc4bf990&gt;&quot;</code></pre>
+</div>
+<div id="ejercicio-2.3.6---2.-explique-por-que-la-funcion-tracemem-muestra-dos-copias-cuando-se-corre-el-siguiente-codigo.-hint-checar-la-diferencia-entre-el-codigo-que-se-presenta-y-el-codigo-que-se-presento-en-el-libro." class="section level4">
+<h4><strong>Ejercicio 2.3.6 - 2. Explique por qué la función <code>tracemem()</code> muestra dos copias cuando se corre el siguiente código.</strong> HINT: Checar la diferencia entre el codigo que se presenta y el código que se presentó en el libro.</h4>
+<p>CÓDIGO:</p>
+<pre class="r"><code>x &lt;- c(1L, 2L, 3L)
+tracemem(x)</code></pre>
+<pre><code>## [1] &quot;&lt;0x55f8cb64f668&gt;&quot;</code></pre>
+<pre class="r"><code>x[[3]] &lt;- 4 </code></pre>
+<pre><code>## tracemem[0x55f8cb64f668 -&gt; 0x55f8cb788c08]: eval eval withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt; 
+## tracemem[0x55f8cb788c08 -&gt; 0x55f8cb6dff68]: eval eval withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt;</code></pre>
+<p>Código del libro</p>
+<pre class="r"><code>x &lt;- c(1,2,3)
+class(x)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code>cat(tracemem(x), &quot;\n&quot;)</code></pre>
+<pre><code>## &lt;0x55f8ccf11e48&gt;</code></pre>
+<pre class="r"><code>y &lt;- x
+y[[3]] &lt;- 4L</code></pre>
+<pre><code>## tracemem[0x55f8ccf11e48 -&gt; 0x55f8ce1d5078]: eval eval withVisible withCallingHandlers handle timing_fn evaluate_call &lt;Anonymous&gt; evaluate in_dir block_exec call_block process_group.block process_group withCallingHandlers process_file &lt;Anonymous&gt; &lt;Anonymous&gt;</code></pre>
+<pre class="r"><code>y[[3]] &lt;- 5L</code></pre>
+<p>En el primer bloque de código, lo que sucede es que, al principio, el vector original es del tipo <code>integer</code> (de ahí el uso de las <code>L</code> para declarar los números). Al introducirle un numero entero al vector, primero hay una copia (<em>copy_on_modify</em>) que lo convierte en vector numerico y luego otra copia que introduce el nuevo elemento en la posición especificada.</p>
+</div>
+<div id="ejercicio-2.3.6---3.-diagrame-la-relacion-entre-los-siguientes-objetos" class="section level4">
+<h4><strong>Ejercicio 2.3.6 - 3. Diagrame la relación entre los siguientes objetos: </strong></h4>
+<pre class="r"><code>a &lt;- 1:10
+b &lt;- list(a,a)
+c &lt;- list(b, a, 1:10)</code></pre>
+<p><em>Propuesta de solución</em></p>
+<p>Para diagramar lo anterior, utilizamos la función <code>ref</code></p>
+<pre class="r"><code>lobstr::ref(c, character = F)</code></pre>
+<pre><code>## █ [1:0x55f8cb73f858] &lt;list&gt; 
+## ├─█ [2:0x55f8cb867f08] &lt;list&gt; 
+## │ ├─[3:0x55f8cbbfdc18] &lt;int&gt; 
+## │ └─[3:0x55f8cbbfdc18] 
+## ├─[3:0x55f8cbbfdc18] 
+## └─[4:0x55f8cb483728] &lt;int&gt;</code></pre>
+</div>
 </div>
 </div>
 
